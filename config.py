@@ -12,7 +12,7 @@ sct_config = dict(
     match_threshold=0.475,
     merge_thresh=0.3,
     n_clusters=4,
-    max_bbox_velocity=0.4,
+    max_bbox_velocity=0.5,
     detection_occlusion_thresh=0.7,
     track_detection_iou_thresh=0.5
 )

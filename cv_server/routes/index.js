@@ -3,20 +3,18 @@ const path = require('path');
 var router = express.Router();
 // pg client
 
-var pg = require('pg');
-var conString = "postgres://postgres:555555@localhost:5432/cv_db";
-
-var client = new pg.Client(conString);
-client.connect();
+const {
+	pool
+} = require('../config')
 
 
 
 /* GET home page. */
 router.get('/', async (req, res, ) => {
 	try {
-		const total_people = await client.query("select count(*) from (SELECT DISTINCT id FROM track_data WHERE entered='2' GROUP BY id HAVING COUNT(id) > 100) AS temp")
-		const people_entered = await client.query("SELECT count(*) FROM (SELECT DISTINCT id FROM track_data where entered='1' GROUP BY id HAVING COUNT(id) >= 3) AS temp ")
-		const people_exit = await client.query("SELECT count(*) FROM (SELECT DISTINCT id FROM track_data where entered='0' GROUP BY id HAVING COUNT(id) >= 3) AS temp ")
+		const total_people = await pool.query("select count(*) from (SELECT DISTINCT id FROM track_data WHERE entered='2' GROUP BY id HAVING COUNT(id) > 100) AS temp")
+		const people_entered = await pool.query("SELECT count(*) FROM (SELECT DISTINCT id FROM track_data where entered='1' GROUP BY id HAVING COUNT(id) >= 3) AS temp ")
+		const people_exit = await pool.query("SELECT count(*) FROM (SELECT DISTINCT id FROM track_data where entered='0' GROUP BY id HAVING COUNT(id) >= 5) AS temp ")
 		console.log(total_people.rows[0].count);
 		res.render('index', {
 			total_people: total_people.rows[0].count,
@@ -26,9 +24,10 @@ router.get('/', async (req, res, ) => {
 	} catch (ex) {
 		console.log(ex)
 	} finally {
-		result.on('end', function () {
-			client.end();
-		});
+		people_exit.on('end', function () {
+			pool.end()
+		})
+
 	}
 });
 

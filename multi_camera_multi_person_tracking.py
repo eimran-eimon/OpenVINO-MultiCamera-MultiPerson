@@ -113,7 +113,7 @@ def run(params, capture, detector, reid):
 
         if frames is None:
             continue
-        if (frame_no % 5) == 0:
+        if (frame_no % 2) == 0:
             # print(frame_no)
             all_detections = detector.get_detections(frames)
             all_masks = [[] for _ in range(len(all_detections))]

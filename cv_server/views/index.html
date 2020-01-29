@@ -13,7 +13,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js" type="text/javascript">
     </script>
-    <script src="https://cdn.jsdelivr.net/jquery.counterup/1.0/jquery.counterup.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 </head>
 
@@ -30,21 +30,9 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <h1><span class="counter">2,523</span></h1>
-                <h3>No. of People (Now)</h3>
-                <i class="fa fa-users"></i>
-            </div>
-            <div class="col-md-4">
-                <h1><span class="counter">63,075</span></h1>
-                <h3>Total People Count</h3>
-                <i class="fa fa-desktop"></i>
-            </div>
-            <div class="col-md-4">
-                <h1><span class="counter">12,218</span></h1>
-                <h3>Average Time (Seconds)</h3>
-                <i class="fa fa-coffee"></i>
-            </div>
+            <canvas id="myChart">
+
+            </canvas>
         </div>
     </div>
 
@@ -52,5 +40,40 @@
 </body>
 
 <script type="text/javascript" src="/javascripts/index.js"></script>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Entered', 'Exited'],
+            datasets: [{
+                label: '# of Votes',
+                data: [{
+                    people_entered
+                }, {
+                    people_exit
+                }],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+
+    });
+</script>
 
 </html>

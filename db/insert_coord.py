@@ -43,8 +43,11 @@ def insert_data(frames, tracked_objects):
             entered = 2
             if dist < 30:
                 cur.execute(
-                    f"SELECT right_coord, bot_coord from track_data where id={id} order by time_stamps desc limit 10")
+                    f"SELECT right_coord, bot_coord from track_data where id={id} order by time_stamps desc limit 5")
                 rows = cur.fetchall()
+
+                if rows is None:
+                    continue
 
                 diff_x = 0
                 diff_y = 0
@@ -54,10 +57,10 @@ def insert_data(frames, tracked_objects):
                     diff_x = diff_x + (right - r[0])
                     diff_y = diff_y + (bottom - r[1])
                 print(f"Diff_X:{diff_x} and Diff_Y:{diff_y} and ID: {id}")
-                if diff_y >= 10 and (left+100) >= line_x1 and (right-100) <= line_x2:
+                if diff_y >= 10 and (left+200) >= line_x1 and (right-200) <= line_x2:
                     entered = 1
                     print(f"{id}: People Entered and dist:{dist}")
-                elif diff_y <= -5 and (left+100) >= line_x1 and (right-100) <= line_x2:
+                elif diff_y <= -10 and (left+200) >= line_x1 and (right-200) <= line_x2:
                     entered = 0
                     print(f"{id}: People Exit and dist: {dist}")
 
